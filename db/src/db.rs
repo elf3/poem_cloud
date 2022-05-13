@@ -4,9 +4,11 @@ use conf::config::CONF;
 use sea_orm::{entity::prelude::*, ConnectOptions, Database};
 use tokio::sync::OnceCell;
 
+// 链接容器
 pub static DB: OnceCell<DatabaseConnection> = OnceCell::const_new();
 
-pub async fn db_conn() -> DatabaseConnection {
+// 导出的方法，进行初始化
+pub async fn connect() -> DatabaseConnection {
     let url = format!(
         "{}:{}@tcp({}:{})/{}?timeout=2s&readTimeout=3s&charset=utf8&parseTimeout=true&loc=Local",
         CONF.db.username, CONF.db.password, CONF.db.host, CONF.db.port, CONF.db.db_name,
