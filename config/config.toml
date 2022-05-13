@@ -1,0 +1,23 @@
+[http_server]
+address = "127.0.0.1"
+name = "cloud"
+port = 80
+
+[static_server]
+dir = "static"
+index = "index.html"
+upload_dir = "uploads"
+upload_url = ""
+
+[log]
+dir = "logs"
+filename = "info"
+log_level = "debug"
+
+[db]
+db_name = "test"
+db_type = "mysql"
+host = "localhost"
+password = "root"
+port = 3306
+username = "root"

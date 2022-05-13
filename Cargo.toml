@@ -1,0 +1,25 @@
+# 工作空间
+[workspace]
+# 初始化项目模块
+members = [
+  "app",
+  "cmd",
+  "conf",
+  "db",
+]
+# 本地测试时的编译配置
+[profile.dev]
+# 不优化
+opt-level = 0
+
+# 编译发布时的配置
+[profile.release]
+# 完全没有调试信息
+debug = false
+# 最高级的优化
+opt-level = 3
+# llvm lto 优化
+lto = true
+# 恐慌时展开堆栈 "unwind"
+# 恐慌时直接终止进程
+panic = "abort"
