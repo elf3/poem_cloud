@@ -3,7 +3,7 @@ use once_cell::sync::Lazy;
 use std::env;
 use std::{fs::File, io::Read};
 
-const CONFIG_FILE: &str = "../config/config.toml";
+const CONFIG_FILE: &str = "config/config.toml";
 
 pub static CONF: Lazy<Config> = Lazy::new(self::Config::new);
 

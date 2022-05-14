@@ -1,7 +1,7 @@
 [http_server]
 address = "127.0.0.1"
 name = "cloud"
-port = 80
+port = 8022
 
 [static_server]
 dir = "static"
