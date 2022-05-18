@@ -15,7 +15,7 @@ fn main() -> Result<(), std::io::Error> {
         };
         let timeout = Some(Duration::from_secs(8));
 
-        let router = Route::new().nest("/api", app::router::init()).with(cors);
+        let router = Route::new().nest("", app::router::init()).with(cors);
         server
             .run_with_graceful_shutdown(router, signal, timeout)
             .await
