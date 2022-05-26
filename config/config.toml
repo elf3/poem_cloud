@@ -15,9 +15,9 @@ filename = "info"
 log_level = "debug"
 
 [db]
-db_name = "test"
+db_name = "poem_cloud"
 db_type = "mysql"
-host = "localhost"
-password = "root"
+host = "127.0.0.1"
+password = "root123123"
 port = 3306
 username = "root"

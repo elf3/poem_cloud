@@ -9,10 +9,11 @@ pub static DB: OnceCell<DatabaseConnection> = OnceCell::const_new();
 
 // 导出的方法，进行初始化
 pub async fn connect() -> DatabaseConnection {
-    let url = format!(
-        "{}:{}@tcp({}:{})/{}?timeout=2s&readTimeout=3s&charset=utf8&parseTimeout=true&loc=Local",
-        CONF.db.username, CONF.db.password, CONF.db.host, CONF.db.port, CONF.db.db_name,
+    // ?timeout=2s&readTimeout=3s&charset=utf8&parseTimeout=true&loc=Local
+    let url = format!("{}://{}:{}@{}:{}/{}", 
+        CONF.db.db_type, CONF.db.username, CONF.db.password, CONF.db.host, CONF.db.port, CONF.db.db_name,
     );
+    println!("{}", url);
     let mut opts = ConnectOptions::new(url);
     opts.max_connections(1000)
         .min_connections(5)
