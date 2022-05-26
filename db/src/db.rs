@@ -9,6 +9,10 @@ pub static DB: OnceCell<DatabaseConnection> = OnceCell::const_new();
 
 // 导出的方法，进行初始化
 pub async fn connect() -> DatabaseConnection {
+    tracing_subscriber::fmt()
+    .with_max_level(tracing::Level::DEBUG)
+    .with_test_writer()
+    .init();
     // ?timeout=2s&readTimeout=3s&charset=utf8&parseTimeout=true&loc=Local
     let url = format!("{}://{}:{}@{}:{}/{}", 
         CONF.db.db_type, CONF.db.username, CONF.db.password, CONF.db.host, CONF.db.port, CONF.db.db_name,
