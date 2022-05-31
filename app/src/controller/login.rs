@@ -8,7 +8,7 @@ pub async fn login(Query(req): Query<api::login::structures::LoginRequest>) -> R
     let data = api::login::db::login(db, req).await;
     match data {
         Ok(kk) => {
-            Response::messsage(&"success".to_string())
+            Response::data(kk.to_string())
         },
         Err(err) => Response::error(&err.to_string()),
     }

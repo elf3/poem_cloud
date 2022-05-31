@@ -15,3 +15,4 @@ or
 
 sea-orm-cli generate entity -o models
 ```
+

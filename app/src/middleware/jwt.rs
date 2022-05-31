@@ -30,7 +30,7 @@ impl<E: Endpoint> Endpoint for JwtMiddlewareImpl<E> {
         {
             // Decode JWT token
             let claims = library::jwt::claims::decode_jwt(value)?;
-            req.set_data(claims.permissions)
+            req.extensions_mut().insert(claims);
         }
 
         // call the next endpoint.

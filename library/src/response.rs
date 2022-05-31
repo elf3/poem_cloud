@@ -12,8 +12,10 @@ pub struct Response<T> {
 #[allow(unconditional_recursion)]
 impl<T> IntoResponse for Response<T>
 where
+    // 必须实现trait 序列化 转移所有权 同步 打印  静态生命周期
     T: Serialize + Send + Sync + Debug + 'static,
 {
+    // 自动转换
     fn into_response(self) -> poem::Response {
         let data = Self {
             code: self.code,

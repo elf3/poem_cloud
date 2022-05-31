@@ -1,2 +1,2 @@
 pub mod claims;
-pub use claims::{create_jwt, decode_jwt};
+pub use claims::{create_jwt, decode_jwt,Claims};
