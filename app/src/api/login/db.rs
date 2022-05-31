@@ -5,9 +5,7 @@ use crate::models::{
     prelude::Admin, admin,
 };
 pub async fn login(db: &DatabaseConnection, req: LoginRequest) -> Result<admin::Model> {
-    println!("{}", req.username);
-    println!("{}", req.password);
-    let mut  model = Admin::find().filter(admin::Column::Username.eq(req.username));
+    let model = Admin::find().filter(admin::Column::Username.eq(req.username));
     let data:Option<admin::Model> = model.one(db).await?;
     let res = match data {
         Some(val) => val,
