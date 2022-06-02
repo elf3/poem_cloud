@@ -1,10 +1,15 @@
 mod api;
+mod v1;
+use poem::{ EndpointExt, Route};
 
-use poem::{get, handler, post, Route};
+use crate::middleware;
 
-use self::api::web_api;
+use self::api::{auth_api, cmmon_api};
+
+
 
 pub fn init() -> Route {
-    let router = Route::new();
-    router.nest("/api", web_api())
+    Route::new()
+        .nest("/public", cmmon_api())
+        .nest("/api/v1", auth_api().with(middleware::jwt::JwtMiddleware))
 }
