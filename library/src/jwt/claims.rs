@@ -15,7 +15,7 @@ use core::marker::Send;
 const JWT_EXPIRATION_HOURS: i64 = 24;
 const SECRET: &str = "12312312";
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug,Clone, Default, Serialize, Deserialize)]
 pub struct Claims {
     pub username: String,
     pub exp: i64,

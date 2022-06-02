@@ -12,4 +12,5 @@ pub fn cmmon_api() -> Route {
 pub fn auth_api() -> Route {
     Route::new()
         .nest("/log_out", get(controller::user::logout))
+        .nest("/info", get(controller::user::info))
 }
