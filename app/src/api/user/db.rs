@@ -1,7 +1,7 @@
 use chrono::{Duration, Utc};
 use anyhow::{Result, anyhow};
 use library::jwt::{Claims, self};
-use sea_orm::{DatabaseConnection, QueryFilter, ColumnTrait,EntityTrait, PaginatorTrait};
+use sea_orm::{entity::prelude::*,QueryFilter, ColumnTrait,EntityTrait, PaginatorTrait};
 use super::structures::LoginRequest;
 use crate::models::{
     prelude::Admin, admin,
@@ -15,7 +15,7 @@ pub async fn login(db: &DatabaseConnection, req: LoginRequest) -> Result<String>
         None => return  Err(anyhow!("账号或密码错误")),
     };
 
-    let claims = jwt::Claims::new(req.username);
+    let claims = jwt::Claims::new(res.username.unwrap(), res.id);
     let token = jwt::create_jwt(claims);
     let tokenstr = match token {
         Ok(val) => val,
@@ -34,4 +34,15 @@ pub async fn logout(db: &DatabaseConnection, user:Claims) -> Result<()> {
     };
     
     Ok(())
+}
+
+
+pub async fn get_userinfo(db:&DatabaseConnection, user:Claims)->Result<admin::Model>{
+    let model = Admin::find().filter(admin::Column::Id.eq(user.user_id));
+    let data:Option<admin::Model> = model.one(db).await?;
+    let res = match data {
+        Some(val) => val,
+        None => return  Err(anyhow!("用户已禁用或不存在")),
+    };
+    Ok(res)
 }

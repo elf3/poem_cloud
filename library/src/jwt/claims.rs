@@ -8,24 +8,23 @@ use poem::{
     Result, http::StatusCode, Error,FromRequest,
     Request,RequestBody,
 };
-use core::pin::Pin;
-use core::future::Future;
-use core::marker::Send;
 
 const JWT_EXPIRATION_HOURS: i64 = 24;
-const SECRET: &str = "12312312";
+const SECRET: &str = "";
 
 #[derive(Debug,Clone, Default, Serialize, Deserialize)]
 pub struct Claims {
     pub username: String,
+    pub user_id: u32,
     pub exp: i64,
 }
 
 impl Claims {
-    pub fn new(username: String) -> Self {
+    pub fn new(username: String, user_id:u32) -> Self {
         Self {
             username,
             exp: (Utc::now() + Duration::hours(JWT_EXPIRATION_HOURS)).timestamp(),
+            user_id,
         }
     }
 }

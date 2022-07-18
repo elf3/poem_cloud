@@ -6,6 +6,7 @@ members = [
   "cmd",
   "conf",
   "db",
+  "migration",
 ]
 # 本地测试时的编译配置
 [profile.dev]

@@ -1,6 +1,6 @@
 use crate::api;
 use db::{connect, DB};
-use library::{response::Response, jwt::{Claims, decode_jwt}};
+use library::{response::Response, jwt::Claims};
 use poem::{handler, web::{Json, Query}, Request};
 #[handler]
 pub async fn login(Query(req): Query<api::user::structures::LoginRequest>) -> Response<String> {
@@ -30,6 +30,8 @@ pub async fn info(req:&Request) -> Response<String> {
     let db = DB.get_or_init(connect).await;
     // let data = api::user::db::logout(db, user).await;
     let claims:Option<&Claims> = req.extensions().get();
+    let claims = req.extensions().get::<Claims>();
+    let claims:Option<&Claims> = req.extensions().get::<Claims>();
     match claims {
         Some(val) => tracing::info!("{:?}", val),
         None => tracing::info!("none"),

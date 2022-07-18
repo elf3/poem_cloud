@@ -24,6 +24,7 @@ pub async fn connect() -> DatabaseConnection {
         .connect_timeout(Duration::from_secs(10))
         .idle_timeout(Duration::from_secs(60))
         .sqlx_logging(false);
+       
     let db = Database::connect(opts)
         .await
         .expect("connect database error");

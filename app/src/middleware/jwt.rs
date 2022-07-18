@@ -35,6 +35,7 @@ impl<E: Endpoint> Endpoint for JwtMiddlewareImpl<E> {
                 Ok(c) => c,
                 Err(err) => return Err(Error::from_string(err.to_string(), StatusCode::INTERNAL_SERVER_ERROR)),
             };
+            
             req.extensions_mut().insert(claims);
         }
 
