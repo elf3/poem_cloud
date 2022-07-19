@@ -6,7 +6,7 @@ use crate::controller;
 pub fn cmmon_api() -> Route {
     Route::new()
         .nest("/login", get(controller::user::login))
-       
+        .nest("/register", post(controller::user::create_user))
 }
 
 pub fn auth_api() -> Route {
