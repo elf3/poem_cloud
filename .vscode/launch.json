@@ -7,17 +7,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in library 'app'",
+            "name": "run server",
             "cargo": {
                 "args": [
-                    "test",
-                    "--no-run",
-                    "--lib",
-                    "--package=app"
+                    "run",
+                    "--bin=cmd",
+                    "--package=cmd"
                 ],
                 "filter": {
-                    "name": "app",
-                    "kind": "lib"
+                    "name": "cmd",
+                    "kind": "bin"
                 }
             },
             "args": [],
@@ -26,26 +25,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in library 'library'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--lib",
-                    "--package=library"
-                ],
-                "filter": {
-                    "name": "library",
-                    "kind": "lib"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug executable 'cmd'",
+            "name": "debug run server",
             "cargo": {
                 "args": [
                     "build",
@@ -60,62 +40,5 @@
             "args": [],
             "cwd": "${workspaceFolder}"
         },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug unit tests in executable 'cmd'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--bin=cmd",
-                    "--package=cmd"
-                ],
-                "filter": {
-                    "name": "cmd",
-                    "kind": "bin"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug unit tests in library 'conf'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--lib",
-                    "--package=conf"
-                ],
-                "filter": {
-                    "name": "conf",
-                    "kind": "lib"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug unit tests in library 'db'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--lib",
-                    "--package=db"
-                ],
-                "filter": {
-                    "name": "db",
-                    "kind": "lib"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        }
     ]
 }

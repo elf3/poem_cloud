@@ -1,9 +1,9 @@
 use conf::CONF;
-use library::Runtime;
+use library::RUNTIME;
 use poem::{endpoint::EndpointExt, listener::TcpListener, middleware::Cors, Result, Route, Server};
 use std::time::Duration;
 fn main() -> Result<(), std::io::Error> {
-    Runtime.block_on(async {
+    RUNTIME.block_on(async {
         let cors = Cors::new();
         let addr = format!("{}:{}", CONF.http_server.address, CONF.http_server.port);
         println!("{}", addr);
@@ -15,7 +15,7 @@ fn main() -> Result<(), std::io::Error> {
         };
         let timeout = Some(Duration::from_secs(8));
 
-        let router = Route::new().nest("", app::router::init()).with(cors);
+        let router = Route::new().nest("", app::router::init().await).with(cors);
         server
             .run_with_graceful_shutdown(router, signal, timeout)
             .await

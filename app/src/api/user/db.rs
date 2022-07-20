@@ -2,12 +2,12 @@ use super::structures::{CreateUserRequest, LoginRequest};
 use crate::models::{prelude::User, user};
 use anyhow::{anyhow, Result};
 use bcrypt::{hash, verify, DEFAULT_COST};
-use chrono::{Duration, Utc};
+use chrono::Utc;
 use library::jwt::{self, Claims};
 use sea_orm::{
     entity::prelude::*,
-    ActiveValue::{NotSet, Set, Unchanged},
-    ColumnTrait, EntityTrait, PaginatorTrait, QueryFilter,
+    ActiveValue::{NotSet, Set},
+    ColumnTrait, EntityTrait, QueryFilter,
 };
 pub async fn login(db: &DatabaseConnection, req: LoginRequest) -> Result<String> {
     let model = User::find().filter(user::Column::Username.eq(req.username.clone()));
@@ -22,7 +22,7 @@ pub async fn login(db: &DatabaseConnection, req: LoginRequest) -> Result<String>
             let token = jwt::create_jwt(claims);
             let tokenstr = match token {
                 Ok(val) => val,
-                Err(e) => return Err(anyhow!("gen token error")),
+                Err(_) => return Err(anyhow!("gen token error")),
             };
             Ok(tokenstr)
         }

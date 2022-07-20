@@ -1,7 +1,7 @@
-use poem::http::StatusCode;
-use poem::http::header::AUTHORIZATION;
-use poem::{Endpoint, Middleware, Request, Result, Error};
 use library;
+use poem::http::header::AUTHORIZATION;
+use poem::http::StatusCode;
+use poem::{Endpoint, Error, Middleware, Request, Result};
 pub struct JwtMiddleware;
 
 impl<E: Endpoint> Middleware<E> for JwtMiddleware {
@@ -33,9 +33,14 @@ impl<E: Endpoint> Endpoint for JwtMiddlewareImpl<E> {
             let decode_res = library::jwt::claims::decode_jwt(value);
             let claims = match decode_res {
                 Ok(c) => c,
-                Err(err) => return Err(Error::from_string(err.to_string(), StatusCode::INTERNAL_SERVER_ERROR)),
+                Err(err) => {
+                    return Err(Error::from_string(
+                        err.to_string(),
+                        StatusCode::INTERNAL_SERVER_ERROR,
+                    ))
+                }
             };
-            
+
             req.extensions_mut().insert(claims);
         }
 
