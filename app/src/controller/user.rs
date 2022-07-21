@@ -1,4 +1,7 @@
-use crate::api;
+use crate::{
+    api,
+    middleware::casbin::{casbin_serv, CASBINSRV},
+};
 use db::{connect, DB};
 use library::{jwt::Claims, response::Response};
 use poem::{
@@ -6,6 +9,8 @@ use poem::{
     web::{Json, Query},
     Request,
 };
+use poem_casbin_auth::casbin::{CoreApi, MgmtApi};
+
 #[handler]
 pub async fn login(Query(req): Query<api::user::structures::LoginRequest>) -> Response<String> {
     let db = DB.get_or_init(connect).await;
@@ -45,4 +50,22 @@ pub async fn create_user(
         Ok(kk) => Response::data(kk),
         Err(err) => Response::error(&err.to_string()),
     }
+}
+
+#[handler]
+pub async fn add_role(req: &Request) -> Response<String> {
+    let casbin = CASBINSRV.get_or_init(casbin_serv).await;
+    casbin
+        .write()
+        .await
+        .add_policies(vec![vec![
+            "alice".to_string(),
+            "/info1".to_string(),
+            "GET".to_string(),
+        ]])
+        .await
+        .unwrap();
+    casbin.write().await.save_policy().await.unwrap();
+
+    Response::success(1.to_string(), &"msg".to_string())
 }
