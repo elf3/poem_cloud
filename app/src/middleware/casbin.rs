@@ -1,6 +1,6 @@
 use db::{connect, DB};
-use library::casbin::SeaOrmAdapter;
-use poem::{Endpoint, Middleware, Request, Result};
+use library::{casbin::SeaOrmAdapter, response::Response};
+use poem::{http::StatusCode, Endpoint, Error, IntoResponse, Middleware, Request, Result};
 use poem_casbin_auth::{
     casbin::{function_map::key_match3, CoreApi, DefaultModel, Enforcer, MgmtApi, RbacApi},
     CasbinService, CasbinVals,
@@ -35,8 +35,9 @@ impl<E: Endpoint> Endpoint for CasbinMiddleware<E> {
         match self.ep.call(req).await {
             Ok(res) => Ok(res),
             Err(err) => {
-                println!("{:?}", err);
-                Err(err)
+                // println!("{:?}", err);
+                let resp: Response<String> = Response::error(&err.to_string());
+                Err(Error::from_response(resp.into_response()))
             }
         }
     }

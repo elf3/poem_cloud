@@ -55,7 +55,7 @@ pub async fn create_user(
 #[handler]
 pub async fn add_role(req: &Request) -> Response<String> {
     let casbin = CASBINSRV.get_or_init(casbin_serv).await;
-    casbin
+    let res = casbin
         .write()
         .await
         .add_policies(vec![vec![
@@ -63,9 +63,12 @@ pub async fn add_role(req: &Request) -> Response<String> {
             "/info1".to_string(),
             "GET".to_string(),
         ]])
-        .await
-        .unwrap();
-    casbin.write().await.save_policy().await.unwrap();
-
-    Response::success(1.to_string(), &"msg".to_string())
+        .await;
+    match res {
+        Ok(kk) => {
+            casbin.write().await.save_policy().await.unwrap();
+            Response::data("success".to_string())
+        }
+        Err(err) => Response::error(&err.to_string()),
+    }
 }

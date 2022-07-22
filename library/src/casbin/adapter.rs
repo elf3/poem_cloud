@@ -12,7 +12,7 @@ pub struct SeaOrmAdapter {
 }
 
 impl<'a> SeaOrmAdapter {
-    pub async fn new<U: Into<String>>(is_init: bool) -> Result<Self> {
+    pub async fn new(is_init: bool) -> Result<Self> {
         let pool = DB.get_or_init(connect).await;
         adapter::new(pool, is_init).await;
         Ok(Self {
